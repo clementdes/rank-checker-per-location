@@ -58,9 +58,8 @@ if st.button("Rechercher les locations"):
         if locations:
             location_options = [loc['full_name'] for loc in locations]
             selected_location = st.selectbox("Sélectionnez une localisation", location_options)
-            st.session_state['selected_location'] = selected_location
-        else:
-            selected_location = None
+            if selected_location:
+                st.session_state['selected_location'] = selected_location
 
 # Bouton pour lancer la recherche
 display_results = st.button("Rechercher")
