@@ -1,3 +1,12 @@
+####################################################################################
+# Get Google SERP per Location Clément DESMOUSSEAUX                                #
+# Website  : https://searchlab.email                                               #
+# Contact  : https://calendly.com/punchify-me/30min                                #
+# LinkedIn : https://www.linkedin.com/in/clemdesmousseaux/                         #
+# Twitter  : https://twitter.com/clementdesmouss                                   #
+####################################################################################
+
+
 import streamlit as st
 import requests
 import json
@@ -5,7 +14,24 @@ import pandas as pd
 from urllib.parse import urlparse
 
 # Initialisation de Streamlit
-st.set_page_config(page_title="Top 20 Google Search", layout="wide")
+"""
+Configures Streamlit's page settings and displays the app title and markdown information.
+Sets the page layout, title, and markdown content with links and app description.
+"""
+st.set_page_config(page_title="Top 20 Google Search per Location | clement-desmousseaux.fr", layout="wide")
+st.title("✨ Get top 20 Google Rresults per location | October  2024")
+
+st.markdown(
+    """
+    <p>
+        Created by <a href="https://twitter.com/clementdesmouss" target="_blank">Clément Desmousseaux</a> |
+        <a href="https://www.clement-desmousseaux.fr" target="_blank">More Apps & Scripts on my Website</a>
+    """,
+    unsafe_allow_html=True
+)
+st.divider()
+
+
 
 # Fonction pour obtenir les locations disponibles via l'API ValueSERP
 def get_location(location_query, api_key):
