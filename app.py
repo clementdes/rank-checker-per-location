@@ -50,19 +50,23 @@ location_query = st.text_input("Entrez une localisation (par exemple, 'Paris')")
 user_url = st.text_input("Votre URL")
 
 # Bouton pour rechercher la localisation
-search_location = st.button("Rechercher la localisation")
-
-selected_location = None
-if search_location and location_query:
-    locations = get_location(location_query, valueserp_api_key)
-    if locations:
-        location_options = [loc['full_name'] for loc in locations]
-        selected_location = st.selectbox("Sélectionnez une localisation", location_options)
+if st.button("Rechercher les locations"):
+    if not valueserp_api_key:
+        st.error("Veuillez entrer votre clé API ValueSERP.")
+    else:
+        locations = get_location(location_query, valueserp_api_key)
+        if locations:
+            location_options = [loc['full_name'] for loc in locations]
+            selected_location = st.selectbox("Sélectionnez une localisation", location_options)
+            st.session_state['selected_location'] = selected_location
+        else:
+            selected_location = None
 
 # Bouton pour lancer la recherche
 display_results = st.button("Rechercher")
 
-if display_results and keyword_input and selected_location:
+if display_results and keyword_input and 'selected_location' in st.session_state:
+    selected_location = st.session_state['selected_location']
     results = get_google_top_20(keyword_input, selected_location, valueserp_api_key)
     if results:
         st.subheader("Top 20 des résultats Google")
