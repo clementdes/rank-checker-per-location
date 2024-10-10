@@ -6,7 +6,6 @@
 # Twitter  : https://twitter.com/clementdesmouss                                   #
 ####################################################################################
 
-
 import streamlit as st
 import requests
 import json
@@ -14,24 +13,21 @@ import pandas as pd
 from urllib.parse import urlparse
 
 # Initialisation de Streamlit
-"""
-Configures Streamlit's page settings and displays the app title and markdown information.
-Sets the page layout, title, and markdown content with links and app description.
-"""
 st.set_page_config(page_title="Top 20 Google Search per Location | clement-desmousseaux.fr", layout="wide")
-st.title("✨ Get top 20 Google Rresults per location | October  2024")
+
+# Interface utilisateur
+st.title("✨ Get top 20 Google Results per location | October 2024")
 
 st.markdown(
     """
     <p>
         Created by <a href="https://twitter.com/clementdesmouss" target="_blank">Clément Desmousseaux</a> |
-        <a href="https://www.clement-desmousseaux.fr" target="_blank">More Apps & Scripts on my Website</a>
+        <a href="https://searchlab.email" target="_blank">More Apps & Scripts in my Newsletter</a>
     """,
     unsafe_allow_html=True
 )
+
 st.divider()
-
-
 
 # Fonction pour obtenir les locations disponibles via l'API ValueSERP
 def get_location(location_query, api_key):
@@ -70,8 +66,6 @@ def get_google_top_20(keyword, location, api_key):
         return None
 
 # Interface utilisateur
-st.title("Recherche des Top 20 de Google par Localisation")
-
 valueserp_api_key = st.sidebar.text_input("Entrez votre clé API ValueSERP", type="password")
 keyword_input = st.text_input("Entrez un mot-clé pour la recherche Google")
 location_query = st.text_input("Entrez une localisation (par exemple, 'Paris')")
