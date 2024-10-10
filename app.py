@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+import pandas as pd
 
 # Initialisation de Streamlit
 st.set_page_config(page_title="Top 20 Google Search", layout="wide")
@@ -69,8 +70,15 @@ if display_results and keyword_input and 'selected_location' in st.session_state
     results = get_google_top_20(keyword_input, selected_location, valueserp_api_key)
     if results:
         st.subheader("Top 20 des résultats Google")
-        for i, result in enumerate(results[:20], start=1):
-            st.write(f"{i}. [{result['title']}]({result['link']})")
+
+        # Créer un DataFrame pour afficher les résultats dans un tableau
+        data = {
+            'Rank': [i + 1 for i in range(len(results[:20]))],
+            'URL': [result['link'] for result in results[:20]],
+            'Title': [result['title'] for result in results[:20]]
+        }
+        df = pd.DataFrame(data)
+        st.table(df)
 
         # Vérifier si l'URL de l'utilisateur est dans le top 30
         if user_url:
