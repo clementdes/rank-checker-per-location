@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 import pandas as pd
+from urllib.parse import urlparse
 
 # Initialisation de Streamlit
 st.set_page_config(page_title="Top 20 Google Search", layout="wide")
@@ -83,8 +84,24 @@ if display_results and keyword_input and 'selected_location' in st.session_state
         # Vérifier si l'URL de l'utilisateur est dans le top 30
         if user_url:
             urls = [result['link'] for result in results]
+            parsed_user_url = urlparse(user_url)
+            user_domain = parsed_user_url.netloc
+
+            # Vérifier l'URL exacte
             if user_url in urls:
                 rank = urls.index(user_url) + 1
                 st.write(f"Votre URL est classée #{rank} dans les résultats de Google.")
             else:
                 st.write("Votre URL n'est pas dans le top 30 des résultats de Google.")
+
+            # Vérifier la présence d'une autre URL du même domaine
+            domain_present = False
+            for i, url in enumerate(urls):
+                parsed_url = urlparse(url)
+                if parsed_url.netloc == user_domain:
+                    st.write(f"Une autre URL du même domaine ({user_domain}) est classée #{i + 1}: {url}")
+                    domain_present = True
+                    break
+
+            if not domain_present:
+                st.write(f"Aucune autre URL du même domaine ({user_domain}) n'a été trouvée dans le top 30 des résultats de Google.")
